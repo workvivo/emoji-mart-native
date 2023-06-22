@@ -8,7 +8,7 @@ import {
   TouchableNativeFeedback,
   Image,
 } from 'react-native'
-
+import {Icon, Row} from 'wv-framework'
 import NimbleEmojiIndex from '../utils/emoji-index/nimble-emoji-index'
 
 import Skins from './skins'
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   searchContainerLight: {
-    backgroundColor: '#eceff1',
+    backgroundColor: '#fff',
     borderBottomColor: '#e0e0e0',
   },
   searchContainerDark: {
@@ -161,15 +161,20 @@ export default class Search extends React.PureComponent {
     }
 
     return (
-      <View
-        style={[
-          styles.searchContainer,
+      <Row
+        backgroundColor="contrast"
+        alignItems="center"
+        height={50}
+        paddingHorizontal="xl"
+        style={
+          (styles.searchContainer,
           theme === 'light'
             ? styles.searchContainerLight
             : styles.searchContainerDark,
-          showCloseButton ? searchContainerWithCloseButtonStyle : null,
-        ]}
+          showCloseButton ? searchContainerWithCloseButtonStyle : null)
+        }
       >
+        <Icon name="search" size="s" paddingRight="m" />
         {showCloseButton ? (
           <Touchable
             onPress={onPressClose}
@@ -231,7 +236,7 @@ export default class Search extends React.PureComponent {
             )}
           </View>
         )}
-      </View>
+      </Row>
     )
   }
 }

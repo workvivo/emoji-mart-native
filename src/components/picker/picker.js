@@ -10,9 +10,6 @@ import {PickerDefaultProps} from '../../utils/shared-default-props'
 const styles = StyleSheet.create({
   emojiMartPickerContainer: {
     width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 })
 

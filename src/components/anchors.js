@@ -1,35 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  TouchableWithoutFeedback,
-  ScrollView,
-} from 'react-native'
+import {StyleSheet, View, ScrollView} from 'react-native'
 
+import {deviceWidth} from 'wv-framework'
 import NimbleEmoji from './emoji/nimble-emoji'
 
 const styles = StyleSheet.create({
   anchors: {
-    borderTopWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: deviceWidth,
+    paddingHorizontal: 15,
   },
   anchorsLight: {
     borderTopColor: '#f6f7f8',
-    backgroundColor: '#e4e7e9',
+    backgroundColor: '#fff',
   },
   anchorsDark: {
     borderTopColor: '#090807',
     backgroundColor: '#1b1816',
   },
   anchor: {
+    alignItems: 'center',
     flex: 1,
-    paddingTop: 12.5,
-    paddingBottom: 12.5,
-    paddingLeft: 18,
-    paddingRight: 18,
     overflow: 'hidden',
+    opacity: 1,
+    paddingTop: 10,
   },
   anchorBar: {
     position: 'absolute',
@@ -38,8 +34,9 @@ const styles = StyleSheet.create({
     right: 0,
     height: 2,
   },
-  anchorBarSelected: {
-    bottom: 0,
+  anchorBarSelected: {},
+  anchorSelected: {
+    opacity: 1,
   },
 })
 
@@ -63,31 +60,16 @@ export default class Anchors extends React.PureComponent {
     this.anchorsWidth = {}
   }
 
-  onSelectAnchor(categoryName) {
-    this.setState({selected: categoryName}, () => {
-      const {selected} = this.state
-      let contentOffset = 0
-
-      if (this.clientWidth) {
-        const anchorOffset = this.anchorsOffset[selected]
-        const anchorWidth = this.anchorsWidth[selected]
-        const anchorHalfWidth = anchorWidth / 2
-
-        const clientCenter = this.clientWidth / 2
-        const scrollStart = clientCenter - anchorHalfWidth
-
-        if (anchorOffset > scrollStart) {
-          contentOffset = anchorOffset - scrollStart
-        }
-      }
-      this.scrollView.scrollTo({x: contentOffset, animated: true})
-    })
+  onSelectAnchor(selected) {
+    this.setState({selected})
   }
 
   handlePress(index) {
     var {categories, onAnchorPress} = this.props
-
-    onAnchorPress(categories[index], index)
+    this.onSelectAnchor(categories[index]?.name)
+    setTimeout(() => {
+      onAnchorPress(categories[index], index)
+    }, 0)
   }
 
   setScrollViewRef(c) {
@@ -109,14 +91,8 @@ export default class Anchors extends React.PureComponent {
   }
 
   render() {
-    var {
-        categories,
-        color,
-        i18n,
-        emojiProps,
-        categoryEmojis,
-        theme,
-      } = this.props,
+    var {categories, color, i18n, emojiProps, categoryEmojis, theme} =
+        this.props,
       {selected} = this.state
 
     return (
@@ -144,33 +120,22 @@ export default class Anchors extends React.PureComponent {
             const categoryEmojiId = id.startsWith('custom-') ? 'custom' : id
 
             return (
-              <TouchableWithoutFeedback
+              <View
                 key={id}
-                data-index={i}
-                onPress={this.handlePress.bind(this, i)}
-                onLayout={this.onAnchorLayout.bind(this, i)}
+                style={[
+                  styles.anchor,
+                  isSelected
+                    ? {backgroundColor: '#eee', borderRadius: 50}
+                    : null,
+                ]}
               >
-                <View
-                  style={[
-                    styles.anchor,
-                    isSelected ? styles.anchorSelected : null,
-                  ]}
-                >
-                  <NimbleEmoji
-                    emoji={categoryEmojis[categoryEmojiId]}
-                    data={this.data}
-                    {...emojiProps}
-                    onPress={this.handlePress.bind(this, i)}
-                  />
-                  <View
-                    style={[
-                      styles.anchorBar,
-                      isSelected ? styles.anchorBarSelected : null,
-                      {backgroundColor: color},
-                    ]}
-                  />
-                </View>
-              </TouchableWithoutFeedback>
+                <NimbleEmoji
+                  emoji={categoryEmojis[categoryEmojiId]}
+                  data={this.data}
+                  {...emojiProps}
+                  onPress={this.handlePress.bind(this, i)}
+                />
+              </View>
             )
           })}
         </View>

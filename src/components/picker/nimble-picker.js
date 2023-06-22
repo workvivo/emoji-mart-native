@@ -8,7 +8,7 @@ import {
   ScrollView,
   ToastAndroid,
 } from 'react-native'
-
+import {deviceWidth} from 'wv-framework'
 import skinStore from '../../utils/skin'
 import frequently from '../../utils/frequently'
 import {deepMerge} from '../../utils'
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   emojiMartPickerLight: {
     color: '#222427',
-    backgroundColor: '#eceff1',
+    backgroundColor: '#fff',
   },
   emojiMartPickerDark: {
     color: '#fff',
@@ -492,7 +492,7 @@ export default class NimblePicker extends React.PureComponent {
     } = this.props
 
     const emojiSizing = emojiSize + emojiMargin
-    const emojisListWidth = perLine * emojiSizing + emojiMargin + 2
+    const emojisListWidth = deviceWidth
     const emojisListHeight = rows * emojiSizing + emojiMargin
 
     const theme = this.getPreferredTheme()
@@ -509,8 +509,7 @@ export default class NimblePicker extends React.PureComponent {
           theme === 'light'
             ? styles.emojiMartPickerLight
             : styles.emojiMartPickerDark,
-          {...style},
-          {width: emojisListWidth},
+          {...style, width: emojisListWidth},
         ]}
       >
         <Search
@@ -547,7 +546,6 @@ export default class NimblePicker extends React.PureComponent {
 
         <ScrollView
           ref={this.setScrollViewRef}
-          onLayout={this.onScrollViewLayout}
           onContentSizeChange={this.onScrollViewContentSizeChange}
           style={[
             styles.emojiMartScroll,
@@ -558,8 +556,7 @@ export default class NimblePicker extends React.PureComponent {
           ]}
           onScroll={this.onScroll}
           horizontal
-          pagingEnabled
-          scrollEventThrottle={100}
+          showsHorizontalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
           {this.getCategories().map((category, i) => {

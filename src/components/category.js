@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {StyleSheet, View, Text, ScrollView} from 'react-native'
+import {StyleSheet, View} from 'react-native'
 
 import frequently from '../utils/frequently'
 import {getData, getSanitizedData, chunk} from '../utils'
 
 import NimbleEmoji from './emoji/nimble-emoji'
 import NotFound from './not-found'
-
+import {deviceWidth} from 'wv-framework'
 const styles = StyleSheet.create({
   emojisContainer: {
     flexDirection: 'row',
@@ -67,14 +67,8 @@ export default class Category extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var {
-        name,
-        perLine,
-        native,
-        hasStickyPosition,
-        emojis,
-        emojiProps,
-      } = this.props,
+    var {name, perLine, native, hasStickyPosition, emojis, emojiProps} =
+        this.props,
       {skin, size, set} = emojiProps,
       {
         perLine: nextPerLine,
@@ -243,7 +237,7 @@ export default class Category extends React.Component {
     const {size: emojiSize, margin: emojiMargin} = emojiProps
 
     const emojiSizing = emojiSize + emojiMargin
-    const emojisListWidth = perLine * emojiSizing + emojiMargin + 2
+    const emojisListWidth = deviceWidth
     const emojisListHeight = rows * emojiSizing + emojiMargin
 
     const paginatedEmojis = chunk(emojis, perLine * rows)
@@ -253,7 +247,7 @@ export default class Category extends React.Component {
       : [
           emojis.length ? (
             paginatedEmojis.map((emojis, i) => {
-              const pageVisible = this.active[`page-${i}`]
+              const pageVisible = true
 
               return (
                 <View
@@ -266,6 +260,7 @@ export default class Category extends React.Component {
                       width: emojisListWidth,
                       height: emojisListHeight,
                       padding: emojiMargin / 2,
+                      background: '#FFF',
                     },
                   ]}
                 >
