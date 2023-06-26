@@ -150,7 +150,7 @@ export default class Category extends React.Component {
   }
 
   getEmojis() {
-    var {name, emojis, recent, perLine, emojiProps} = this.props
+    var {name, emojis, recent, perLine, emojiProps, emojisToShowFilter} = this.props
 
     if (name == 'Recent') {
       let {custom} = this.props
@@ -166,7 +166,10 @@ export default class Category extends React.Component {
 
             return id
           })
-          .filter((id) => !!getData(id, null, null, this.data))
+          .filter((id) => {
+            const emojiData = getData(id, null, null, this.data); 
+            return !!emojiData && (!emojisToShowFilter || emojisToShowFilter(emojiData));
+          })
       }
 
       if (emojis.length === 0 && frequentlyUsed.length > 0) {

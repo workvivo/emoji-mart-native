@@ -603,6 +603,7 @@ export default class NimblePicker extends React.PureComponent {
                 notFoundEmoji={notFoundEmoji}
                 theme={theme}
                 fontSize={fontSize}
+                emojisToShowFilter={emojisToShowFilter}
               />
             )
           })}
