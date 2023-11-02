@@ -9,12 +9,22 @@ const styles = StyleSheet.create({
   anchors: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: deviceWidth,
-    paddingHorizontal: 15,
+    width: deviceWidth - 30,
+    marginHorizontal: 15,
+    marginVertical: 2,
+    borderRadius: 10,
+    paddingHorizontal: 2,
+    shadowColor: '#999',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowRadius: 1,
+    shadowOpacity: 0.5,
   },
   anchorsLight: {
     borderTopColor: '#f6f7f8',
-    backgroundColor: '#fff',
+    backgroundColor: '#F9FAFB',
   },
   anchorsDark: {
     borderTopColor: '#090807',
@@ -23,9 +33,10 @@ const styles = StyleSheet.create({
   anchor: {
     alignItems: 'center',
     flex: 1,
-    overflow: 'hidden',
     opacity: 1,
     paddingTop: 10,
+    marginVertical: 2,
+    paddingHorizontal: 2,
   },
   anchorBar: {
     position: 'absolute',
@@ -37,6 +48,15 @@ const styles = StyleSheet.create({
   anchorBarSelected: {},
   anchorSelected: {
     opacity: 1,
+    backgroundColor: '#E5E7EB',
+    borderRadius: 10,
+    shadowColor: '#999',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowRadius: 1,
+    shadowOpacity: 0.5,
   },
 })
 
@@ -108,6 +128,7 @@ export default class Anchors extends React.PureComponent {
             styles.anchors,
             theme === 'light' ? styles.anchorsLight : styles.anchorsDark,
           ]}
+          variant="shadow"
         >
           {categories.map((category, i) => {
             var {id, name, anchor} = category,
@@ -124,9 +145,7 @@ export default class Anchors extends React.PureComponent {
                 key={id}
                 style={[
                   styles.anchor,
-                  isSelected
-                    ? {backgroundColor: '#eee', borderRadius: 50}
-                    : null,
+                  isSelected ? styles.anchorSelected : null,
                 ]}
               >
                 <NimbleEmoji
