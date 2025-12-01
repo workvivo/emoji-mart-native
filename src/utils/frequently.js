@@ -3,13 +3,12 @@ import store from './store'
 const DEFAULTS = [
   '+1',
   'grinning',
-  'heart_eyes',
   'laughing',
+  'heart',
   'sweat_smile',
   'joy',
-  'scream',
   'sunglasses',
-  'heart',
+  'heart_eyes',
 ]
 
 let frequently, initialized
