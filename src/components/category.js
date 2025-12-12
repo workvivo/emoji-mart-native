@@ -159,7 +159,7 @@ export default class Category extends React.Component {
       if (frequentlyUsed.length) {
         emojis = frequentlyUsed
           .map((id) => {
-            const emoji = custom.filter((e) => e.id === id)[0]
+            const emoji = custom.filter((e) => e?.id === id)[0]
             if (emoji) {
               return emoji
             }
@@ -275,7 +275,7 @@ export default class Category extends React.Component {
 
                     return pageVisible ? (
                       <NimbleEmoji
-                        key={`${name}_emoji_${emoji.id}`}
+                        key={`${name}_emoji_${emoji?.id}`}
                         emoji={emoji}
                         data={this.data}
                         {...emojiProps}

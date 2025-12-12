@@ -9,6 +9,7 @@ const DEFAULTS = [
   'joy',
   'sunglasses',
   'heart_eyes',
+  'smiley'
 ]
 
 let frequently, initialized
@@ -38,7 +39,7 @@ function get(perLine) {
 
     const result = []
 
-    for (let i = 0; i < perLine; i++) {
+    for (let i = 0; i < perLine && i < DEFAULTS.length; i++) {
       defaults[DEFAULTS[i]] = perLine - i
       result.push(DEFAULTS[i])
     }
